@@ -1,0 +1,5 @@
+.bundle
+*.iml
+.idea/
+tmp
+../.idea/workspace.xml
