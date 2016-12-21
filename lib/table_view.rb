@@ -17,8 +17,9 @@ class TableView
     end
   end
 
-  def display (grid)
-    res = ''
+  def display (grid, tour)
+    res = generate_message(tour)
+    # res = ''
     line_indicies = (1..grid.height)
     line_indicies.each do |line|
       col_indicies = (1..grid.length).to_a
@@ -27,5 +28,12 @@ class TableView
       res << "\n"
     end
     res
+  end
+
+  def generate_message(tour)
+    '
+
+Grille au tour '+ tour.to_s + ' :
+'
   end
 end

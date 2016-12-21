@@ -12,9 +12,12 @@ describe TableView do
 
   describe '#display' do
     context 'empty grid' do
-      it { expect(table.display(empty_grid)).to eq expected }
+      it { expect(table.display(empty_grid,1)).to eq expected }
       let(:expected) do
         <<EOS
+
+
+Grille au tour 1 :
 . . .
 . . .
 . . .
@@ -27,9 +30,12 @@ EOS
       before do
         grid.add_cell(2, 2, alive)
       end
-      it { expect(table.display(grid)).to eq expected }
+      it { expect(table.display(grid,1)).to eq expected }
       let(:expected) do
         <<EOS
+
+
+Grille au tour 1 :
 . . .
 . * .
 . . .
@@ -42,9 +48,12 @@ EOS
         grid.add_cell(2, 2, alive)
         grid.add_cell(2, 4, alive)
       end
-      it { expect(table.display(grid)).to eq expected }
+      it { expect(table.display(grid,1)).to eq expected }
       let(:expected) do
         <<EOS
+
+
+Grille au tour 1 :
 . . .
 . * .
 . . .

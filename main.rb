@@ -18,13 +18,8 @@ grid = Grid.new(length, height)
 tableview = TableView.new
 init(grid)
 
-def generate_message(tour)
-  'Grille au tour '+ tour.to_s + '
-  '
-end
 
 (0.. number_of_tour).each { |tour|
-  puts generate_message(tour)
-  puts tableview.display(grid)
+  puts tableview.display(grid, tour)
   grid = grid.next
 }
