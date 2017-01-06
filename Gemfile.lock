@@ -36,10 +36,16 @@ GEM
       shellany (~> 0.0)
     nyan-cat-formatter (0.11)
       rspec (>= 2.99, >= 2.14.2, < 4)
+    power_assert (0.2.6)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
@@ -58,8 +64,15 @@ GEM
     rspec-support (3.4.1)
     ruby_dep (1.3.1)
     shellany (0.0.1)
+    sinatra (1.4.7)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
     slop (3.6.0)
+    test-unit (3.1.5)
+      power_assert
     thor (0.19.1)
+    tilt (2.0.5)
 
 PLATFORMS
   ruby
@@ -70,8 +83,14 @@ DEPENDENCIES
   guard-bundler
   guard-rspec
   nyan-cat-formatter
+  rack-test
   rb-fsevent
   rspec
+  sinatra
+  test-unit
+
+RUBY VERSION
+   ruby 2.3.0p0
 
 BUNDLED WITH
-   1.12.2
+   1.12.5

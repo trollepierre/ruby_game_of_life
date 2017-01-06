@@ -8,12 +8,14 @@ group :development do
   gem 'guard' 
   gem 'guard-rspec'
   gem 'guard-bundler'
+  gem 'sinatra'
+  gem 'rack-test'
+  gem 'test-unit'
 
   if RUBY_PLATFORM.downcase.include?("darwin")
     gem 'rb-fsevent'
     gem 'growl' # also install growlnotify
   end
-
 
 end  
 group :test do
