@@ -86,6 +86,7 @@ DEPENDENCIES
   rack-test
   rb-fsevent
   rspec
+  rspec-mocks
   sinatra
   test-unit
 

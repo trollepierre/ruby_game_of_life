@@ -1,10 +1,34 @@
+require_relative 'table_view'
+
 class Grid
-  attr_reader :matrix, :length, :height, :cell
+  attr_reader :matrix, :length, :height
 
   def initialize(length, height)
     @matrix = {}
     @length = length
     @height = height
+  end
+
+  def add_matrix(matrix)
+    for x in 1..@length
+      for y in 1..@height
+        @matrix[[x,y]] = matrix["["+x.to_s+', '+y.to_s+"]"]
+      end
+    end
+  end
+
+  def == grid
+    result = true
+    if @length == grid.length && @height == grid.height
+      for x in 1..@length
+        for y in 1..@height
+          result &= (@matrix[[x, y]] == grid.matrix[[x, y]])
+        end
+      end
+      result
+    else
+      false
+    end
   end
 
   def is_alive(state, number_of_neighbours)
@@ -14,7 +38,7 @@ class Grid
   end
 
   def state(x, y)
-    return  TableView::Plays::DEAD if @matrix[[x, y]] == nil
+    return TableView::Plays::DEAD if @matrix[[x, y]] == nil
     @matrix[[x, y]]
   end
 

@@ -6,24 +6,26 @@ require_relative '../lib/table_view'
 describe Grid do
   let(:grid) { Grid.new(10, 10) }
   let(:new_grid) { Grid.new(10, 10) }
+  let(:fake_grid) { Grid.new(5, 10) }
+  let(:wrong_grid) { Grid.new(10, 5) }
   let(:alive) { TableView::Plays::ALIVE }
   let(:dead) { TableView::Plays::DEAD }
 
   describe '#isAlive' do
-    context 'Any live cell with fewer than two live neighbours dies' do
+    context 'Any alive cell with fewer than two alive neighbours dies' do
       it { expect(grid.is_alive(TableView::Plays::ALIVE, 0)).to be TableView::Plays::DEAD }
     end
-    context 'Any live cell with two or three live neighbours lives on to the next generation' do
+    context 'Any alive cell with two or three alive neighbours lives on to the next generation' do
       it { expect(grid.is_alive(TableView::Plays::ALIVE, 2)).to be TableView::Plays::ALIVE }
       it { expect(grid.is_alive(TableView::Plays::ALIVE, 3)).to be TableView::Plays::ALIVE }
     end
-    context 'Any dead cell without 3 neighbours stay dead' do
+    context 'Any dead cell without 3 alive neighbours stay dead' do
       it { expect(grid.is_alive(TableView::Plays::DEAD, 2)).to be TableView::Plays::DEAD }
     end
-    context 'Any dead cell with exactly three live neighbours becomes a live cell' do
+    context 'Any dead cell with exactly three alive neighbours becomes a living cell' do
       it { expect(grid.is_alive(TableView::Plays::DEAD, 3)).to be TableView::Plays::ALIVE }
     end
-    context 'Any live cell with more than three live neighbours die' do
+    context 'Any alive cell with more than three alive neighbours die' do
       it { expect(grid.is_alive(TableView::Plays::ALIVE, 4)).to be TableView::Plays::DEAD }
     end
   end
@@ -107,6 +109,30 @@ describe Grid do
         expect(new_grid.state(6, 5)).to be alive
         expect(new_grid.state(6, 6)).to be alive
       end
+    end
+  end
+
+  describe '==' do
+    context 'simple equality' do
+      it do
+        expect(new_grid == grid).to be true
+        expect(grid == grid).to be true
+        expect(new_grid == new_grid).to be true
+      end
+    end
+    context 'wrong dimension' do
+      it { expect(new_grid == fake_grid).to be false }
+      it { expect(new_grid == wrong_grid).to be false }
+      end
+    context 'wrong matrix' do
+      before do
+        grid.add_cell(4, 5, alive)
+        grid.add_cell(5, 4, alive)
+        grid.add_cell(5, 5, alive)
+        grid.add_cell(5, 6, alive)
+        grid.add_cell(6, 5, alive)
+      end
+      it { expect(new_grid == grid).to be false }
     end
   end
 end

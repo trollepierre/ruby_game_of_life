@@ -4,7 +4,7 @@ require_relative 'lib/table_view'
 
 length = 10
 height = 10
-number_of_tour = 10
+number_of_tours = 10
 
 def init(grid)
   grid.add_cell(4, 5, TableView::Plays::ALIVE)
@@ -19,7 +19,7 @@ tableview = TableView.new
 init(grid)
 
 
-(0.. number_of_tour).each { |tour|
+(0.. number_of_tours).each { |tour|
   puts tableview.display(grid, tour)
   grid = grid.next
 }
