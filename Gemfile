@@ -2,15 +2,12 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem "nyan-cat-formatter"
+gem 'sinatra'
 
-group :development do  
-  gem 'guard' 
+group :development do
+  gem 'guard'
   gem 'guard-rspec'
   gem 'guard-bundler'
-  gem 'sinatra'
-  gem 'rack-test'
-  gem 'test-unit'
 
 
   if RUBY_PLATFORM.downcase.include?("darwin")
@@ -18,8 +15,11 @@ group :development do
     gem 'growl' # also install growlnotify
   end
 
-end  
+end
 group :test do
   gem 'rspec'
+  gem 'nyan-cat-formatter'
+  gem 'test-unit'
+  gem 'rack-test'
   gem 'rspec-mocks'
 end
