@@ -84,6 +84,31 @@ class RouteApp < Sinatra::Base
     redirect '/grid/'+id.to_s + '/'
   end
 
+  post('/create/') do
+    length = params['length'].to_i
+    height = params['height'].to_i
+    id = 100
+
+    grid = Grid.new(length, height)
+
+    for x in 1..length
+      for y in 1..height
+        grid.add_cell(x, y, TableView::Plays::DEAD)
+      end
+    end
+
+    grid.add_cell(4, 5, TableView::Plays::ALIVE)
+    grid.add_cell(5, 4, TableView::Plays::ALIVE)
+    grid.add_cell(5, 5, TableView::Plays::ALIVE)
+    grid.add_cell(5, 6, TableView::Plays::ALIVE)
+    grid.add_cell(6, 5, TableView::Plays::ALIVE)
+
+    grid_to_json = file_manager.format_grid(grid).to_json
+
+    file_manager.save(grid_to_json, id)
+    redirect '/grid/'+id.to_s + '/'
+  end
+
   post '/evolve' do
     height = params['height']
     length = params['length']
