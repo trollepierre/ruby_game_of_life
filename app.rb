@@ -11,6 +11,9 @@ class RouteApp < Sinatra::Base
     "Hello, world!"
   end
 
+  get '/grid/100/' do
+    "Proud of you"
+  end
   get '/grid/:id/' do
     if params[:id]
       id = params[:id]
