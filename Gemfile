@@ -4,10 +4,10 @@ ruby '2.3.0'
 
 gem 'sinatra'
 
-  if RUBY_PLATFORM.downcase.include?("darwin")
+  # if RUBY_PLATFORM.downcase.include?("darwin")
     gem 'rb-fsevent'
     gem 'growl' # also install growlnotify
-  end
+  # end
 
 group :development do
   gem 'guard'
