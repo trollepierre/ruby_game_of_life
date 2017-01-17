@@ -15,11 +15,29 @@ class RouteApp < Sinatra::Base
     "Proud of grid"
   end
 
-  get '/grid/100/' do
-    "Proud of you"
+  get '/grid/:id/' do
+    if params[:id]
+      id = params[:id]
+
+      # getFormattedGrid
+      contenu = file_manager.getGrid(id)
+      grille = JSON.load(contenu)
+      grid = file_manager.reformat_grid(grille)
+
+      #evolve
+      next_grid = grid.next
+
+      #save grid
+      grid_to_json = file_manager.format_grid(next_grid).to_json
+      file_manager.save(grid_to_json, id)
+
+      #return grid
+      return grid_to_json
+    end
+    'FAUSSE REQUETE'
   end
 
-  get '/grid/:id/' do
+  get '/grid/:id' do
     if params[:id]
       id = params[:id]
 
@@ -63,7 +81,7 @@ class RouteApp < Sinatra::Base
     grid_to_json = file_manager.format_grid(grid).to_json
 
     file_manager.save(grid_to_json, id)
-    redirect '/grid/'+id.to_s
+    redirect '/grid/'+id.to_s + '/'
   end
 
   post '/evolve' do
@@ -74,9 +92,3 @@ class RouteApp < Sinatra::Base
     "1ère cell reçue is :" + x + " height : " + height + " length : " + length
   end
 end
-
-# Demande à ABA s'il a fait ça ?
-
-# Demande à TPA pourquoi mes 2 mocks - xit - ne marchent pas
-
-# à DAB, JJA ? : indente automatique
