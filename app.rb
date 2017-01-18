@@ -83,6 +83,7 @@ class RouteApp < Sinatra::Base
     grid_to_json = file_manager.format_grid(grid).to_json
 
     file_manager.save(grid_to_json, id)
+    headers 'Access-Control-Allow-Origin' => '*'
     redirect '/grid/'+id.to_s + '/'
   end
 
@@ -108,6 +109,7 @@ class RouteApp < Sinatra::Base
     grid_to_json = file_manager.format_grid(grid).to_json
 
     file_manager.save(grid_to_json, id)
+    headers 'Access-Control-Allow-Origin' => '*'
     redirect '/grid/'+id.to_s + '/'
   end
 
