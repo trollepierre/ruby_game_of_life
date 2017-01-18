@@ -31,7 +31,8 @@ class RouteApp < Sinatra::Base
       grid_to_json = file_manager.format_grid(next_grid).to_json
       file_manager.save(grid_to_json, id)
 
-      #return grid
+
+      headers 'Access-Control-Allow-Origin' => '*'
       return grid_to_json
     end
     'FAUSSE REQUETE'
@@ -54,6 +55,7 @@ class RouteApp < Sinatra::Base
       file_manager.save(grid_to_json, id)
 
       #return grid
+      headers 'Access-Control-Allow-Origin' => '*'
       return grid_to_json
     end
     'FAUSSE REQUETE'
