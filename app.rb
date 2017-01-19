@@ -40,6 +40,7 @@ class RouteApp < Sinatra::Base
   end
 
   post('/create/?') do
+    cross_origin
     length = params['length'].to_i
     height = params['height'].to_i
     id = 100
