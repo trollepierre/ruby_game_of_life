@@ -73,5 +73,6 @@ class RouteApp < Sinatra::Base
 
     headers 'Access-Control-Allow-Origin' => '*'
     grid_to_json
+    headers 'Access-Control-Allow-Origin' => '*'
   end
 end
