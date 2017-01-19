@@ -8,6 +8,7 @@ group :production do
   # if RUBY_PLATFORM.downcase.include?("darwin")
     gem 'rb-fsevent'
     gem 'growl' # also install growlnotify
+    gem 'sinatra-cross_origin', '~> 0.3.1'
   # end
 end
 
