@@ -5,20 +5,29 @@ require_relative 'lib/file_manager'
 require_relative 'lib/table_view'
 require 'sinatra/cross_origin'
 
-configure do
-  enable :cross_origin
-end
-
-options "*" do
-  response.headers["Allow"] = "HEAD,GET,PUT,POST,DELETE,OPTIONS"
-
-  response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
-
-  200
-end
 
 class RouteApp < Sinatra::Base
   file_manager = FileManager.new
+  configure do
+    enable :cross_origin
+  end
+
+  options "*" do
+    response.headers["Allow"] = "HEAD,GET,PUT,POST,DELETE,OPTIONS"
+
+    response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
+
+    200
+  end
+
+  before do
+    if request.request_method == 'OPTIONS'
+      response.headers["Access-Control-Allow-Origin"] = "*"
+      response.headers["Access-Control-Allow-Methods"] = "POST"
+
+      halt 200
+    end
+  end
 
   get '/' do
     "Hello, world!"
