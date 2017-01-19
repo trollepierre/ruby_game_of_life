@@ -11,10 +11,6 @@ class RouteApp < Sinatra::Base
     "Hello, world!"
   end
 
-  get '/grid/' do
-    "Proud of grid"
-  end
-
   get '/grid/:id/?' do
     if params[:id]
       id = params[:id]
@@ -62,14 +58,6 @@ class RouteApp < Sinatra::Base
     file_manager.save(grid_to_json, id)
 
     headers 'Access-Control-Allow-Origin' => '*'
-    return grid_to_json
-  end
-
-  post '/evolve' do
-    height = params['height']
-    length = params['length']
-    my_cells = params['cells']['myCells']
-    x = my_cells[0]['state']
-    "1ère cell reçue is :" + x + " height : " + height + " length : " + length
+    grid_to_json
   end
 end
