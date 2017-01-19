@@ -9,6 +9,14 @@ configure do
   enable :cross_origin
 end
 
+options "*" do
+  response.headers["Allow"] = "HEAD,GET,PUT,POST,DELETE,OPTIONS"
+
+  response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
+
+  200
+end
+
 class RouteApp < Sinatra::Base
   file_manager = FileManager.new
 
@@ -40,7 +48,7 @@ class RouteApp < Sinatra::Base
   end
 
   post('/create/?') do
-    cross_origin
+    cross_origin :allow_origin => 'http://localhost:8080'
     length = params['length'].to_i
     height = params['height'].to_i
     id = 100
