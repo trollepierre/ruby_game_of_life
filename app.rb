@@ -3,6 +3,11 @@ require 'sinatra'
 require 'json'
 require_relative 'lib/file_manager'
 require_relative 'lib/table_view'
+require 'sinatra/cross_origin'
+
+configure do
+  enable :cross_origin
+end
 
 class RouteApp < Sinatra::Base
   file_manager = FileManager.new
