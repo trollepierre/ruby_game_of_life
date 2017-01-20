@@ -8,8 +8,14 @@ require 'sinatra/cross_origin'
 
 class RouteApp < Sinatra::Base
   file_manager = FileManager.new
+
   configure do
     enable :cross_origin
+    set :allow_origin, :any
+    set :allow_methods, [:get, :post, :options]
+    set :allow_credentials, true
+    set :max_age, "1728000"
+    set :expose_headers, ['Content-Type']
   end
 
   options "*" do
@@ -20,20 +26,11 @@ class RouteApp < Sinatra::Base
     200
   end
 
-  before do
-    if request.request_method == 'OPTIONS'
-      response.headers["Access-Control-Allow-Origin"] = "*"
-      response.headers["Access-Control-Allow-Methods"] = "POST"
-
-      halt 200
-    end
-  end
-
   get '/' do
     "Hello, world!"
   end
 
-  get '/grid/:id/?' do
+  get '/grids/:id' do
     if params[:id]
       id = params[:id]
 
@@ -56,7 +53,7 @@ class RouteApp < Sinatra::Base
     'FAUSSE REQUETE'
   end
 
-  post('/create/?') do
+  post('/grids') do
     cross_origin :allow_origin => 'http://localhost:8080'
     length = params['length'].to_i
     height = params['height'].to_i
