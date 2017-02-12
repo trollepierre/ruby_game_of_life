@@ -3,11 +3,32 @@ require 'sinatra'
 require 'json'
 require_relative 'lib/file_manager'
 require_relative 'lib/table_view'
-# require 'sinatra/cross_origin'
-
+require 'sinatra/cross_origin'
+require 'pry'
 
 class RouteApp < Sinatra::Base
+  # register Sinatra::CrossOrigin
   file_manager = FileManager.new
+
+
+  configure do
+# Comma separate list of remote hosts that are allowed.
+# :any will allow any host
+    set :allow_origin, :any
+    enable :cross_origin
+
+# HTTP methods allowed
+#      set :allow_methods, [:head, :options, :get, :post]
+
+# Allow cookies to be sent with the requests
+#     set :allow_credentials, true
+  end
+
+  # before do
+  #   content_type :json
+  #   headers 'Access-Control-Allow-Origin' => '*'
+  #           # ,'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
+  # end
 
 =begin
   configure do
@@ -56,7 +77,35 @@ class RouteApp < Sinatra::Base
   get '/create' do
     # create random grid
     length = 100
-    height = 30
+    height = 60
+    id = 100
+
+    grid = Grid.new(length, height)
+
+    for x in 1..length
+      for y in 1..height
+        state = rand(2) == 1 ? TableView::Plays::ALIVE : TableView::Plays::DEAD
+        grid.add_cell(x, y, state)
+      end
+    end
+
+    grid_to_json = file_manager.format_grid(grid).to_json
+    file_manager.save(grid_to_json, id)
+
+    headers 'Access-Control-Allow-Origin' => '*'
+    grid_to_json
+  end
+
+  get '/create/:id/height/:height/width/:width' do
+    # if params[:id]
+    id = params[:id].to_i
+    # end
+    # if params[:height]
+    height = params[:height].to_i
+    # end
+    # if params[:width]
+    length = params[:width].to_i
+    # end
     id = 100
 
     grid = Grid.new(length, height)
@@ -77,7 +126,7 @@ class RouteApp < Sinatra::Base
 
 
   post('/grids') do
-    # cross_origin :allow_origin => 'http://localhost:8080'
+
     length = params['length'].to_i
     height = params['height'].to_i
     id = 100
@@ -100,8 +149,8 @@ class RouteApp < Sinatra::Base
 
     file_manager.save(grid_to_json, id)
 
-    # headers 'Access-Control-Allow-Origin' => '*'
+    headers 'Access-Control-Allow-Origin' => '*'
+    binding.pry
     grid_to_json
-    # headers 'Access-Control-Allow-Origin' => '*'
   end
 end
