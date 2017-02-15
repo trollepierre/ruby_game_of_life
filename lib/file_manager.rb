@@ -1,7 +1,5 @@
 require 'json'
 require_relative 'grid'
-require 'pry'
-
 
 class FileManager
   def save grid, id
