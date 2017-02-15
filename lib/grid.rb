@@ -4,9 +4,14 @@ class Grid
   attr_reader :matrix, :length, :height
 
   def initialize(length, height)
-    @matrix = {}
     @length = length
     @height = height
+    @matrix = {}
+    for abs in 1 .. length
+      for ord in 1 .. height
+        @matrix[[abs, ord]] == TableView::Plays::DEAD
+      end
+    end
   end
 
   def add_matrix(matrix)
