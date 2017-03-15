@@ -4,6 +4,7 @@ require_relative '../lib/grid'
 require_relative '../lib/table_view'
 
 describe Grid do
+  let(:one_cells_grid) { Grid.new(1, 1) }
   let(:grid) { Grid.new(10, 10) }
   let(:new_grid) { Grid.new(10, 10) }
   let(:fake_grid) { Grid.new(5, 10) }
@@ -14,6 +15,7 @@ describe Grid do
   describe '#isAlive' do
     context 'Any alive cell with fewer than two alive neighbours dies' do
       it { expect(grid.is_alive(TableView::Plays::ALIVE, 0)).to be TableView::Plays::DEAD }
+      it { expect(grid.is_alive(TableView::Plays::ALIVE, 1)).to be TableView::Plays::DEAD }
     end
     context 'Any alive cell with two or three alive neighbours lives on to the next generation' do
       it { expect(grid.is_alive(TableView::Plays::ALIVE, 2)).to be TableView::Plays::ALIVE }
@@ -123,7 +125,7 @@ describe Grid do
     context 'wrong dimension' do
       it { expect(new_grid == fake_grid).to be false }
       it { expect(new_grid == wrong_grid).to be false }
-      end
+    end
     context 'wrong matrix' do
       before do
         grid.add_cell(4, 5, alive)
@@ -133,6 +135,34 @@ describe Grid do
         grid.add_cell(6, 5, alive)
       end
       it { expect(new_grid == grid).to be false }
+    end
+  end
+
+  describe '#count' do
+    context 'one alive cells' do
+      before do
+        one_cells_grid.add_cell(1, 1, alive)
+      end
+      it { expect(one_cells_grid.count(alive)).to eq 1 }
+      it { expect(one_cells_grid.count(dead)).to eq 0 }
+    end
+    context 'one dead cells' do
+      before do
+        one_cells_grid.add_cell(1, 1, dead)
+      end
+      it { expect(one_cells_grid.count(alive)).to eq 0 }
+      it { expect(one_cells_grid.count(dead)).to eq 1 }
+    end
+    context 'big cells' do
+      before do
+        new_grid.add_cell(4, 5, alive)
+        new_grid.add_cell(5, 4, alive)
+        new_grid.add_cell(5, 5, alive)
+        new_grid.add_cell(5, 6, alive)
+        new_grid.add_cell(6, 5, alive)
+      end
+      it { expect(new_grid.count(alive)).to eq 5 }
+      it { expect(new_grid.count(dead)).to eq 95 }
     end
   end
 end

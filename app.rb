@@ -6,55 +6,20 @@ require_relative 'lib/table_view'
 require 'sinatra/cross_origin'
 
 class RouteApp < Sinatra::Base
-  # register Sinatra::CrossOrigin
   file_manager = FileManager.new
 
-
   configure do
-# Comma separate list of remote hosts that are allowed.
-# :any will allow any host
     set :allow_origin, :any
     enable :cross_origin
-
-# HTTP methods allowed
-#      set :allow_methods, [:head, :options, :get, :post]
-
-# Allow cookies to be sent with the requests
-#     set :allow_credentials, true
   end
-
-  # before do
-  #   content_type :json
-  #   headers 'Access-Control-Allow-Origin' => '*'
-  #           # ,'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
-  # end
-
-=begin
-  configure do
-    enable :cross_origin
-    set :allow_origin, :any
-    set :allow_methods, [:get, :post, :options]
-    set :allow_credentials, true
-    set :max_age, "1728000"
-    set :expose_headers, ['Content-Type']
-  end
-=end
-
-  # options "*" do
-  #   response.headers["Allow"] = "HEAD,GET,PUT,POST,DELETE,OPTIONS"
-  #   response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
-  #   200
-  # end
-
   get '/' do
-    "Hello, world!"
+    'Hello, world!'
   end
 
   get '/grids/:id' do
     id = params[:id]
 
-    contenu = file_manager.readFile(id)
-    grid = file_manager.reformat_grid(contenu)
+    grid = file_manager.getNotNullFormattedGridFromReadFile(id)
 
     next_grid = grid.next
 
@@ -64,6 +29,19 @@ class RouteApp < Sinatra::Base
     headers 'Access-Control-Allow-Origin' => '*'
     content_type :json
     grid_to_json
+  end
+
+  get '/grids/:id/count/:state' do
+    id = params[:id]
+    state = (params[:state] == 'dead') ? TableView::Plays::DEAD : TableView::Plays::ALIVE
+
+    grid = file_manager.getNotNullFormattedGridFromReadFile(id)
+
+    headers 'Access-Control-Allow-Origin' => '*'
+    if grid.count(state) == 0
+      grid = file_manager.getNotNullFormattedGridFromReadFile(id)
+    end
+    grid.count(state).to_s
   end
 
   get '/newCreate/:id/height/:height/width/:width' do

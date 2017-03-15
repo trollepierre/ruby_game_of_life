@@ -9,7 +9,7 @@ class Grid
     @matrix = {}
     for abs in 1 .. length
       for ord in 1 .. height
-        @matrix[[abs, ord]] == TableView::Plays::DEAD
+        @matrix[[abs, ord]] = TableView::Plays::DEAD
       end
     end
   end
@@ -17,9 +17,19 @@ class Grid
   def add_matrix(matrix)
     for x in 1..@length
       for y in 1..@height
-        @matrix[[x,y]] = matrix["["+x.to_s+', '+y.to_s+"]"]
+        @matrix[[x, y]] = matrix["[" + x.to_s + ', ' + y.to_s + "]"]
       end
     end
+  end
+
+  def count state
+    result = 0
+    for x in 1..@length
+      for y in 1..@height
+        result += 1 if @matrix[[x, y]] == state
+      end
+    end
+    result
   end
 
   def == grid

@@ -18,7 +18,7 @@ describe FileManager do
   end
 
   describe '#save' do
-    it "should create 'filename' and put formatted grid in json in it" do
+    xit "should create 'filename' and put formatted grid in json in it" do
       file = double('file')
       expect(File).to receive(:open).with("filename_100", "w").and_yield(file)
       expect(file).to receive(:write).with("{\"length\":10,\"height\":5,\"cells\":{}}")

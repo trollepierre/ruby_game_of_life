@@ -25,7 +25,15 @@ describe RouteApp do
       # expect(JSON).to receive(:load)
       get '/grids/100'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq('[{"x":1,"y":1,"state":"dead"}]')
+      # expect(last_response.body).to eq('[{"x":1,"y":1,"state":"dead"}]')
+    end
+  end
+
+  describe 'GET count' do
+    it 'count alive cells' do
+      get '/grids/100/count/alive'
+      expect(last_response).to be_ok
+      # expect(last_response.body).to eq('12')
     end
   end
 
