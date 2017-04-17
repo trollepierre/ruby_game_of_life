@@ -22,6 +22,8 @@ class FileManager
     contenu
   end
 
+  # do while ruby
+  # gestion d'erreurs
   def getNotNullFormattedGridFromReadFile id
     contenu = readFile(id)
     while contenu == nil do
@@ -61,7 +63,9 @@ class FileManager
 
     #fix bug
     if contenu == nil
+      puts "Exception: empty content: #{formatted_grid}"
       contenu = JSON.load('[{"x":1,"y":1,"state":"dead"}]')
+
       # pry
     end
 
@@ -70,8 +74,8 @@ class FileManager
     grid = Grid.new(length, height)
 
     for i in 0 .. contenu.length - 1
-      if contenu[i]['state'] == "alive"
-        grid.add_cell(contenu[i]['x'].to_i, contenu[i]['y'].to_i, "alive")
+      if contenu[i]['state'] == 'alive'
+        grid.add_cell(contenu[i]['x'].to_i, contenu[i]['y'].to_i, 'alive')
       end
     end
     grid
