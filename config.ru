@@ -1,4 +1,4 @@
 # config.ru
-require './app'
+require './route_app'
 run RouteApp
 

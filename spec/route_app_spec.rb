@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-require_relative '../app'
+require_relative '../route_app'
 require_relative '../lib/file_manager'
 
 describe RouteApp do
