@@ -1,5 +1,4 @@
 require 'json'
-require 'pry'
 require_relative 'grid'
 
 class FileManager
@@ -65,8 +64,6 @@ class FileManager
     if contenu == nil
       puts "Exception: empty content: #{formatted_grid}"
       contenu = JSON.load('[{"x":1,"y":1,"state":"dead"}]')
-
-      # pry
     end
 
     length = contenu[contenu.length - 1]['x']
