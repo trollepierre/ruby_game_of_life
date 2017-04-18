@@ -3,7 +3,7 @@ require_relative 'grid'
 
 class FileManager
   def save grid, id
-    File.open 'data/filename_'+id.to_s, 'w' do |file|
+    File.open 'data/filename_'+id.to_s, 'w+' do |file|
       file.write(grid)
     end
   end
