@@ -45,6 +45,7 @@ class RouteApp < Sinatra::Base
   end
 
   get '/newCreate/:id/height/:height/width/:width' do
+    FileUtils.mkdir_p('data') unless File.exist?('data')
     id = params[:id].to_i
     height = params[:height].to_i
     length = params[:width].to_i
