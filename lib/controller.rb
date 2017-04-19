@@ -11,8 +11,11 @@ class Controller
   end
 
   def getGrid id
-    @file_manager.getNotNullFormattedGridFromReadFile(id)
-    id
+    grid = @file_manager.getNotNullFormattedGridFromReadFile(id)
+    next_grid = grid.next
+    grid_to_json = @file_manager.new_format_grid(next_grid)
+    @file_manager.save(grid_to_json, id)
+    grid_to_json
   end
 
 end
