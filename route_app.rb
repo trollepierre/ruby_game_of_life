@@ -29,14 +29,8 @@ class RouteApp < Sinatra::Base
   get '/grids/:id/count/:state' do
     id = params[:id]
     state = (params[:state] == 'dead') ? TableView::Plays::DEAD : TableView::Plays::ALIVE
-
-    grid = file_manager.getNotNullFormattedGridFromReadFile(id)
-
     headers 'Access-Control-Allow-Origin' => '*'
-    if grid.count(state) == 0
-      grid = file_manager.getNotNullFormattedGridFromReadFile(id)
-    end
-    grid.count(state).to_s
+    controller.count_cells(id, state)
   end
 
   get '/newCreate/:id/height/:height/width/:width' do

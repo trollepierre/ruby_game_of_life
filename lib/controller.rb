@@ -18,4 +18,15 @@ class Controller
     grid_to_json
   end
 
+  def count_cells id, state
+    grid = @file_manager.getNotNullFormattedGridFromReadFile(id)
+
+    # not tested
+    if grid.count(state) == 0
+      grid = @file_manager.getNotNullFormattedGridFromReadFile(id)
+    end
+
+    grid.count(state).to_s
+  end
+
 end
