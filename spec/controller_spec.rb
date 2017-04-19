@@ -5,12 +5,13 @@ require_relative '../lib/controller'
 require_relative '../lib/file_manager'
 
 describe Controller do
+  let(:id_grid) { 100 }
   let(:file_manager) { FileManager.new }
   let(:controller) { Controller.new file_manager }
 
   describe '#sayHi' do
     it "should return Hello world" do
-      expect(controller.sayHi()).to eq "Hello, world!"
+      expect(controller.sayHi).to eq "Hello, world!"
     end
   end
 
@@ -26,7 +27,7 @@ describe Controller do
       controller = Controller.new file_manager
       expect(file_manager).to receive(:getNotNullFormattedGridFromReadFile)
 
-      controller.getGrid(id)
+      controller.getGrid :id_grid
     end
   end
 end
