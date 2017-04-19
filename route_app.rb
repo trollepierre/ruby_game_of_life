@@ -2,13 +2,15 @@
 require 'sinatra'
 require 'json'
 require_relative 'lib/file_manager'
+require_relative 'lib/randomizer'
 require_relative 'lib/table_view'
 require_relative 'lib/controller'
 require 'sinatra/cross_origin'
 
 class RouteApp < Sinatra::Base
   file_manager = FileManager.new
-  controller = Controller.new file_manager
+  randomizer = Randomizer.new
+  controller = Controller.new file_manager, randomizer
 
   configure do
     set :allow_origin, :any
@@ -34,27 +36,13 @@ class RouteApp < Sinatra::Base
   end
 
   get '/newCreate/:id/height/:height/width/:width' do
-    FileUtils.mkdir_p('data') unless File.exist?('data')
     id = params[:id].to_i
     height = params[:height].to_i
-    length = params[:width].to_i
-
-    grid = Grid.new(length, height)
-
-    for x in 1..length
-      for y in 1..height
-        state = rand(2) == 1 ? TableView::Plays::ALIVE : TableView::Plays::DEAD
-        grid.add_cell(x, y, state)
-      end
-    end
-    grid.add_cell(1, 1, TableView::Plays::DEAD)
-
-    grid_to_json = file_manager.new_format_grid(grid)
-    file_manager.save(grid_to_json, id)
+    width = params[:width].to_i
 
     headers 'Access-Control-Allow-Origin' => '*'
     content_type :json
-    grid_to_json
+    controller.create_grid(id, width, height)
   end
 
   post('/grids') do

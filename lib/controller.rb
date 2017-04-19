@@ -1,9 +1,11 @@
 require_relative '../lib/file_manager'
+require_relative '../lib/randomizer'
 
 class Controller
 
-  def initialize file_manager
+  def initialize(file_manager, randomizer)
     @file_manager = file_manager
+    @randomizer = randomizer
   end
 
   def sayHi
@@ -27,6 +29,17 @@ class Controller
     end
 
     grid.count(state).to_s
+  end
+
+  def create_grid id, width, height
+    grid = @randomizer.get_grid(width, height)
+
+    # to be removed ?
+    # FileUtils.mkdir_p('data') unless File.exist?('data')
+
+    grid_to_json = @file_manager.new_format_grid(grid)
+    @file_manager.save(grid_to_json, id)
+    grid_to_json
   end
 
 end
