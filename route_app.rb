@@ -8,7 +8,7 @@ require 'sinatra/cross_origin'
 
 class RouteApp < Sinatra::Base
   file_manager = FileManager.new
-  controller = Controller.new
+  controller = Controller.new file_manager
 
   configure do
     set :allow_origin, :any
