@@ -35,7 +35,7 @@ describe Controller do
     end
 
     it "should call file manager with correct id grille" do
-      expect(@file_manager).to receive(:getNotNullFormattedGridFromReadFile) { :id_grille }
+      expect(@file_manager).to receive(:getNotNullFormattedGridFromReadFile).with(:id_grille)
       @controller.getGrid :id_grille
     end
 
@@ -45,7 +45,7 @@ describe Controller do
     end
 
     it "should format new grid with next grid" do
-      expect(@file_manager).to receive(:new_format_grid) { @next_grid }
+      expect(@file_manager).to receive(:new_format_grid).with(@next_grid)
       @controller.getGrid :id_grille
     end
 
@@ -117,7 +117,7 @@ describe Controller do
     end
 
     it "should save grid to json" do
-      expect(@file_manager).to receive(:save).with(@grid_to_json, 100)
+      expect(@file_manager).to receive(:save).with(@grid_to_json, "100")
       @controller.create_grid("100", "50", "10")
     end
 

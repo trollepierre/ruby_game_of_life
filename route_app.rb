@@ -12,11 +12,6 @@ class RouteApp < Sinatra::Base
   randomizer = Randomizer.new
   controller = Controller.new file_manager, randomizer
 
-  configure do
-    set :allow_origin, :any
-    enable :cross_origin
-  end
-
   get '/' do
     controller.sayHi
   end

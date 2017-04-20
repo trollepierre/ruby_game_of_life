@@ -39,7 +39,7 @@ class Controller
     # FileUtils.mkdir_p('data') unless File.exist?('data')
 
     grid_to_json = @file_manager.new_format_grid(grid)
-    @file_manager.save(grid_to_json, id.to_i)
+    @file_manager.save(grid_to_json, id)
     grid_to_json
   end
 

@@ -3,26 +3,28 @@ require_relative 'grid'
 
 class FileManager
   def save grid, id
-    File.open 'data/filename_'+id.to_s, 'w' do |file|
+    begin
+      file = File.open('data/filename_' + id.to_s, 'w')
       file.write(grid)
+      file.close
+    rescue => err
+      "Exception: #{err.message}"
     end
   end
 
   def readFile id
     begin
       file = File.open('data/filename_' + id.to_s, 'r')
-      contenu = file.read
+      content = file.read
       file.close
-      contenu
+      content
     rescue => err
-      puts "Exception: #{err}"
-      err
+      "Exception: #{err.message}"
     end
-    contenu
   end
 
-  # do while ruby
-  # gestion d'erreurs
+# do while ruby
+# gestion d'erreurs
   def getNotNullFormattedGridFromReadFile id
     contenu = readFile(id)
     while contenu == nil do
@@ -77,4 +79,5 @@ class FileManager
     end
     grid
   end
-  end
+
+end

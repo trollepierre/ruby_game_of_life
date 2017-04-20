@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/mocks'
 
 require_relative '../lib/file_manager'
 require_relative '../lib/grid'
@@ -18,18 +19,69 @@ describe FileManager do
   end
 
   describe '#save' do
-    xit "should create 'filename' and put formatted grid in json in it" do
-      file = double('file')
-      expect(File).to receive(:open).with("filename_100", "w").and_yield(file)
-      expect(file).to receive(:write).with("{\"length\":10,\"height\":5,\"cells\":{}}")
-      file_manager.save(empty_grid.to_json, 100)
+    describe "file is correctly open" do
+      before() do
+        @file = double('file')
+        allow(File).to receive(:open).with("data/filename_100", "w").and_return(@file)
+        allow(@file).to receive(:write).with(empty_grid.to_json)
+        allow(@file).to receive(:close)
+      end
+      it "should open with correct file path and mode" do
+        expect(File).to receive(:open).with("data/filename_100", "w")
+        file_manager.save(empty_grid.to_json, 100)
+      end
+      it "should write grid in file" do
+        expect(@file).to receive(:write).with(empty_grid.to_json)
+        file_manager.save(empty_grid.to_json, 100)
+      end
+      it "should close the file" do
+        expect(@file).to receive(:close)
+        file_manager.save(empty_grid.to_json, 100)
+      end
+    end
+    describe "when error occurs during read" do
+      before() do
+        @file = double('file')
+        allow(File).to receive(:open).with("data/filename_100", "w").and_raise('err')
+      end
+      it "should open with correct file path and mode" do
+        expect(file_manager.save(empty_grid.to_json, 100)).to eq "Exception: err"
+      end
     end
   end
 
   describe '#readFile' do
-    xit "should get grid from 'filename'" do
-      expect(File).to receive(:open).with("filename_100", "r")
-      file_manager.readFile(100)
+    describe "file is correctly open" do
+      before() do
+        @file = double('file')
+        allow(File).to receive(:open).with("data/filename_100", "r").and_return(@file)
+        allow(@file).to receive(:read).and_return("content")
+        allow(@file).to receive(:close)
+      end
+      it "should open with correct file path and mode" do
+        expect(File).to receive(:open).with("data/filename_100", "r")
+        file_manager.readFile(100)
+      end
+      it "should read content" do
+        expect(@file).to receive(:read)
+        file_manager.readFile(100)
+      end
+      it "should close file" do
+        expect(@file).to receive(:close)
+        file_manager.readFile(100)
+      end
+      it "should return content" do
+        expect(file_manager.readFile(100)).to eq "content"
+      end
+    end
+    describe "when error occurs during read" do
+      before() do
+        @file = double('file')
+        allow(File).to receive(:open).with("data/filename_100", "r").and_raise('err')
+      end
+      it "should open with correct file path and mode" do
+        expect(file_manager.readFile(100)).to eq "Exception: err"
+      end
     end
   end
 
