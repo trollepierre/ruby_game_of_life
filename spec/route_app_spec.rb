@@ -2,62 +2,81 @@ require 'spec_helper'
 
 require_relative '../route_app'
 require_relative '../lib/file_manager'
+require_relative '../lib/controller'
 
 describe RouteApp do
   describe 'GET /' do
-    it 'should allow accessing the home page' do
+    it 'should be ok' do
       get '/'
       expect(last_response).to be_ok
+    end
+    it 'should display content through controller' do
+      get '/'
       expect(last_response.body).to eq("Hello, world!")
     end
   end
 
   describe 'GET /grids/:id' do
-    xit 'should call getGrid' do
-      # file_manager = double('file_manager')
-      # expect(file_manager).to receive(:getGrid)
-      # expect(JSON).to receive(:load)
-      get '/grids/100/'
+    before() do
+      get '/newCreate/17432/height/1/width/1'
     end
-    it 'should call getGrid' do
-      # file_manager = double('file_manager')
-      # expect(file_manager).to receive(:getGrid)
-      # expect(JSON).to receive(:load)
-      get '/grids/100'
+    it 'should be ok' do
+      get '/grids/17432'
       expect(last_response).to be_ok
-      # expect(last_response.body).to eq('[{"x":1,"y":1,"state":"dead"}]')
+    end
+    it 'should set content type to application json' do
+      get '/grids/17432'
+      expect(last_response.content_type).to eq "application/json"
+    end
+    it 'should set CORS' do
+      get '/grids/17432'
+      expect(last_response.headers['Access-Control-Allow-Origin']).to eq "*"
+    end
+    it 'should return parse body' do
+      get '/grids/17432'
+      expect(last_response.body).to include "[{\"x\":1,\"y\":1,\"state\":\""
     end
   end
 
-  describe 'GET count' do
-    it 'count alive cells' do
-      get '/grids/100/count/alive'
+  describe 'GET /grids/:id/count/alive' do
+    before() do
+      get '/newCreate/17432/height/1/width/1'
+    end
+    it 'should be ok' do
+      get '/grids/17432/count/alive'
       expect(last_response).to be_ok
-      # expect(last_response.body).to eq('12')
+    end
+    it 'should set CORS' do
+      get '/grids/17432/count/alive'
+      expect(last_response.headers['Access-Control-Allow-Origin']).to eq "*"
+    end
+    it 'should return parse body' do
+      get '/grids/17432/count/alive'
+      zeroOrOne = last_response.body.to_i
+      if (zeroOrOne == 0)
+        expect(zeroOrOne).to eq 0
+      else
+        expect(zeroOrOne).to eq 1
+      end
     end
   end
 
-  describe 'POST /create' do
-    xit 'should create a file for the grid' do
-      file_manager = double('file_manager')
-      expect(file_manager).to receive(:create).with(10, 5).and_yield(100)
-      post '/create', :length => "10", :height => "5"
-      expect(last_response).to be_redirect
-    end
-    xit 'should redirect to /grid/:id' do
-      post '/create', :length => "10", :height => "5"
-      expect(last_response).to be_redirect
-      expect(last_response.location).to include("/grid/100")
-    end
-  end
-
-  describe '/newCreate/:id/height/:height/width/:width' do
-    it 'should give [ { x: 1, y:1, state : "dead" }]' do
-      get '/newCreate/100/height/1/width/1'
+  describe 'GET /newCreate/:id/height/:height/width/:width' do
+    it 'should be ok' do
+      get '/newCreate/17432/height/1/width/1'
       expect(last_response).to be_ok
-      # expect(last_response.body).to eq('[{"x":1,"y":1,"state":"dead"}]')
+    end
+    it 'should set content type to application json' do
+      get '/newCreate/17432/height/1/width/1'
+      expect(last_response.content_type).to eq "application/json"
+    end
+    it 'should set CORS' do
+      get '/newCreate/17432/height/1/width/1'
+      expect(last_response.headers['Access-Control-Allow-Origin']).to eq "*"
+    end
+    it 'should return parse body' do
+      get '/newCreate/17432/height/1/width/1'
+      expect(last_response.body).to include "[{\"x\":1,\"y\":1,\"state\":\""
     end
   end
-
-
 end

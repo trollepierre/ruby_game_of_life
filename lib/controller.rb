@@ -21,6 +21,7 @@ class Controller
   end
 
   def count_cells id, state
+    state = (state == 'dead') ? TableView::Plays::DEAD : TableView::Plays::ALIVE
     grid = @file_manager.getNotNullFormattedGridFromReadFile(id)
 
     # not tested
@@ -32,13 +33,13 @@ class Controller
   end
 
   def create_grid id, width, height
-    grid = @randomizer.get_grid(width, height)
+    grid = @randomizer.get_grid(width.to_i, height.to_i)
 
     # to be removed ?
     # FileUtils.mkdir_p('data') unless File.exist?('data')
 
     grid_to_json = @file_manager.new_format_grid(grid)
-    @file_manager.save(grid_to_json, id)
+    @file_manager.save(grid_to_json, id.to_i)
     grid_to_json
   end
 
