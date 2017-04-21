@@ -36,7 +36,7 @@ class Controller
     grid = @randomizer.get_grid(width.to_i, height.to_i)
 
     # to be removed ?
-    # FileUtils.mkdir_p('data') unless File.exist?('data')
+    FileUtils.mkdir_p('data') unless File.exist?('data')
 
     grid_to_json = @file_manager.new_format_grid(grid)
     @file_manager.save(grid_to_json, id)
