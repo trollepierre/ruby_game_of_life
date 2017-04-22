@@ -1,7 +1,7 @@
 # game_of_life
 Game of Life in Ruby
 
-[demo](https://glacial-hamlet-53356.herokuapp.com/)
+[demo](https://glacial-hamlet-53356.herokuapp.com/grids/100)
 
 **Welcome on board**
 ## getting started
