@@ -68,7 +68,13 @@ class FileManager
       contenu = JSON.load('[{"x":1,"y":1,"state":"dead"}]')
     end
 
-    length = contenu[contenu.length - 1]['x']
+    begin
+      length = contenu[contenu.length - 1]['x']
+    rescue => err
+      "Exception: #{err.message}"
+      contenu = JSON.load('[{"x":1,"y":1,"state":"dead"}]')
+      length = contenu[contenu.length - 1]['x']
+    end
     height = contenu[contenu.length - 1]['y']
     grid = Grid.new(length, height)
 
